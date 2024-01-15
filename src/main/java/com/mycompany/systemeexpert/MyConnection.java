@@ -15,7 +15,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
 /**
  *
  * @author elhou
@@ -29,8 +31,15 @@ public class MyConnection {
         if(connection==null){
             try{
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost/systeme_expert","root","");
-            
+            Properties properties = new Properties();
+            try (FileReader reader = new FileReader("database.properties")) {
+                properties.load(reader);
+            }
+            String url = properties.getProperty("db.url");
+            String user = properties.getProperty("db.user");
+            String password = properties.getProperty("db.password");
+
+            connection = DriverManager.getConnection(url, user, password);
         }catch(Exception e){
             System.out.println(e.getMessage());
           
@@ -43,8 +52,8 @@ public class MyConnection {
          
         HashMap<String,String> snapshot = new HashMap<String,String>();
         snapshot.clear();
-        PreparedStatement ps;
-        ResultSet rs;
+        PreparedStatement ps =null;
+        ResultSet rs = null;
         String query ="SELECT * FROM `reglesfait` WHERE `Fait`!=''";
         
     
@@ -59,6 +68,17 @@ public class MyConnection {
                 }    
              }catch (SQLException ex) {
                 
+            }finally {
+            	try {
+            		if(ps !=null && !ps.isClosed()) {
+            			ps.close();
+            		}
+            		if(rs !=null && !rs.isClosed()) {
+            			rs.close();
+            		}
+            	}catch (Exception e) {
+            		System.out.println(e);
+				}
             } 
         return snapshot;
     }

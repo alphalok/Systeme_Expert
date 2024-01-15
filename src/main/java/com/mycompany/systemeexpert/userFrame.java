@@ -30,7 +30,15 @@ public class userFrame extends javax.swing.JFrame {
        
     }
 
-    public userFrame() {
+    public HashMap<String, String> getSnapshot() {
+		return snapshot;
+	}
+
+	public void setSnapshot(HashMap<String, String> snapshot) {
+		this.snapshot = snapshot;
+	}
+
+	public userFrame() {
         initComponents();
         afficherRegle();
         

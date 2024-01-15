@@ -155,7 +155,7 @@ public class expertFrame extends javax.swing.JFrame {
         }
         else{
 
-            PreparedStatement ps;
+            PreparedStatement ps = null;
             String query ="UPDATE `reglesfait` SET `Fait`= ? WHERE `Regles`=?";
             try {
                 ps= MyConnection.getConnection().prepareStatement(query);
@@ -171,6 +171,14 @@ public class expertFrame extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 System.out.println(ex);
                 
+            }finally {
+            	try {
+            		if(ps !=null && !ps.isClosed()) {
+            			ps.close();
+            		}
+            	}catch (Exception e) {
+            		System.out.println(e);
+				}
             }
             
             expertFrame frame = new expertFrame(expert);

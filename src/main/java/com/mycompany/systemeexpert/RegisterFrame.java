@@ -231,8 +231,8 @@ public class RegisterFrame extends javax.swing.JFrame {
 
     public boolean userExiste(String username){
         boolean userexis=true;
-        PreparedStatement ps;
-            ResultSet rs;
+        PreparedStatement ps= null;
+            ResultSet rs= null;
             String query = "SELECT * FROM `users` WHERE `USERNAME` =?"  ;
             
         try {
@@ -244,7 +244,18 @@ public class RegisterFrame extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             Logger.getLogger(RegisterFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }finally {
+        	try {
+        		if(ps !=null && !ps.isClosed()) {
+        			ps.close();
+        		}
+        		if(rs !=null && !rs.isClosed()) {
+        			rs.close();
+        		}
+        	}catch (Exception e) {
+        		System.out.println(e);
+			}
+        } 
             
             
         return userexis;

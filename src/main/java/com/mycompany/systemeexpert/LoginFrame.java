@@ -21,6 +21,8 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private Connection connection;
     HashMap<String, String> regles = new HashMap<String,String>();
+    String username = "";
+    String password = "";
     /**
      * Creates new form LoginFrame
      */
@@ -28,6 +30,10 @@ public class LoginFrame extends javax.swing.JFrame {
         initComponents();
         connection=MyConnection.getConnection();
     }
+    
+    public void setConnection(Connection cn) {
+    	this.connection = cn;
+	}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -143,10 +149,93 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel3MousePressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String username = usernamefield.getText();
-        String password = String.valueOf(passwordField.getPassword());
+    	 username = usernamefield.getText();
+         password = String.valueOf(passwordField.getPassword());
         
         if(username.isEmpty() ){
+            JOptionPane.showMessageDialog(this, "Veulliez entrer un username");
+        }else if(password.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Veulliez entrer votre mot de pass");
+        }
+        else{
+            
+            PreparedStatement ps;
+            ResultSet rs;
+            String query = "SELECT * FROM `users` WHERE `USERNAME` =? AND `PASSWORD`= ?";
+            
+            performLogin();
+            
+           
+            
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new LoginFrame().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPasswordField passwordField;
+    private javax.swing.JTextField usernamefield;
+    // End of variables declaration//GEN-END:variables
+	public void setUsernameField(String username) {
+		this.username = username;
+		
+	}
+
+	public void setPasswordField(String password) {
+		this.password = password;
+		
+	}
+
+	public String getUsernameField() {
+		// TODO Auto-generated method stub
+		return username;
+	}
+	public String getPasswordField() {
+		// TODO Auto-generated method stub
+		return password;
+	}
+
+	public void performLogin() {
+		if(username.isEmpty() ){
             JOptionPane.showMessageDialog(this, "Veulliez entrer un username");
         }else if(password.isEmpty()){
             JOptionPane.showMessageDialog(this, "Veulliez entrer votre mot de pass");
@@ -213,51 +302,19 @@ public class LoginFrame extends javax.swing.JFrame {
            
             
         }
+
+		
+	}
+
+	public userFrame getFrameAfterLogin() {
+		User user = new User();
+        user.setName(username);
+        user.setPassword(password);
+        user.setId(1);
+        user.setEmail("test@gmail.com");
         
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginFrame().setVisible(true);
-            }
-        });
-    }
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField passwordField;
-    private javax.swing.JTextField usernamefield;
-    // End of variables declaration//GEN-END:variables
+        System.out.println(regles);
+        return new userFrame(user,regles);
+		
+	}
 }

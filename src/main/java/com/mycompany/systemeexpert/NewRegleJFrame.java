@@ -138,7 +138,7 @@ public class NewRegleJFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Veulliez entrer votre Probleme");
         }
         else{
-            PreparedStatement ps;
+            PreparedStatement ps=null;
             String query ="INSERT INTO `reglesfait`(`Regles`, `Fait`) VALUES (?,'')";
             try {
                 ps= MyConnection.getConnection().prepareStatement(query);
@@ -151,7 +151,15 @@ public class NewRegleJFrame extends javax.swing.JFrame {
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(RegisterFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }finally {
+            	try {
+            		if(ps !=null && !ps.isClosed()) {
+            			ps.close();
+            		}
+            	}catch (Exception e) {
+            		System.out.println(e);
+				}
+            } 
             
             
         }

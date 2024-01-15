@@ -4,11 +4,26 @@
  */
 package com.mycompany.systemeexpert;
 
-/**
- *
- * @author elhou
- */
+import java.util.logging.Logger;
+
+
 public class Expert extends Utilisateur{
+	 private static final Logger logger = Logger.getLogger(Utilisateur.class.getName());
+
+	public Expert() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Expert(String name, String password, int Id, String email) {
+		super(name, password, Id, email);
+		// TODO Auto-generated constructor stub
+	}
     
     
+	public String status() {
+        return this.getName()+" is an expert";
+    }
+	
+	
 }

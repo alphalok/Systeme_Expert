@@ -4,13 +4,11 @@
  */
 package com.mycompany.systemeexpert;
 
-/**
- *
- * @author elhou
- */
+
 public abstract class Utilisateur {
+	private boolean IS_EXPERT;
     private String name;
-    private String password;
+	private String password;
     private int Id;
     private String email;
 
@@ -55,6 +53,14 @@ public abstract class Utilisateur {
         this.Id = Id;
         this.email = email;
     }
+    
+    public boolean isIS_EXPERT() {
+		return IS_EXPERT;
+	}
+
+	public void setIS_EXPERT(boolean iS_EXPERT) {
+		IS_EXPERT = iS_EXPERT;
+	}
     
     
     
